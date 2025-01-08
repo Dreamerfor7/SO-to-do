@@ -136,8 +136,25 @@
                 fields: 'id'
             }).then(function (response) {
                 alert('File uploaded successfully: ' + response.result.id);
+                shareWithEmail(response.result.id, 'dreamerfor7@gmail.com');
             }).catch(function (error) {
                 alert('Error uploading file: ' + error.message);
+            });
+        }
+
+        function shareWithEmail(fileId, email) {
+            const permission = {
+                'type': 'user',
+                'role': 'writer',  // You can change the role (reader, writer, owner)
+                'emailAddress': email
+            };
+            gapi.client.drive.permissions.create({
+                resource: permission,
+                fileId: fileId
+            }).then(function () {
+                alert('File shared with ' + email);
+            }).catch(function (error) {
+                alert('Error sharing file: ' + error.message);
             });
         }
 
